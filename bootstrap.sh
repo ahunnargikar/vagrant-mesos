@@ -171,7 +171,6 @@ cd /home/vagrant
 cp vagrant-mesos/aurora/aurora.sh /usr/local/aurora.sh
 chmod +x /usr/local/aurora.sh
 
-
 #Install & configure Nginx
 echo "####################################"
 echo "Installing Nginx........"

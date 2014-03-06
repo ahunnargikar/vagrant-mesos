@@ -17,7 +17,6 @@ git pull
 cd ..
 
 #Copy over the slave-specific configs
-cp -rf vagrant-mesos/mesos3/mesos/mesos/* /etc/mesos
 cp -rf vagrant-mesos/mesos3/mesos/mesos-master/* /etc/mesos-master
 cp -rf vagrant-mesos/mesos3/mesos/mesos-slave/* /etc/mesos-slave
 
