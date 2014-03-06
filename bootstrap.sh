@@ -99,8 +99,8 @@ echo "Installing Marathon........"
 echo "####################################"
 git clone https://github.com/mesosphere/marathon
 cd marathon
-sed -i 's/<mesos.version>0.15.0/<mesos.version>0.17.0/g' pom.xml
-sed -i 's/<protobuf.version>2.4.1/<protobuf.version>2.5.0/g' pom.xml
+sed -i 's#\(<mesos.version>\).*\(</mesos.version>\)#\1'0.17.0'\2#g' pom.xml
+sed -i 's#\(<protobuf.version>\).*\(</protobuf.version>\)#\1'2.5.0'\2#g' pom.xml
 protoc --java_out=src/main/java/ --proto_path=/usr/local/include/mesos/ --proto_path=src/main/proto/ src/main/proto/marathon.proto
 mvn package
 git status

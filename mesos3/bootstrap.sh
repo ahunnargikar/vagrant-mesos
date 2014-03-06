@@ -3,9 +3,6 @@
 #Set the hostname
 hostname mesos3
 echo "mesos3" > /etc/hostname
-echo "192.168.56.101    mesos1 jenkins jenkins1 marathon marathon1 aurora aurora1 zookeeper1 nginx1 docker1" >> /etc/hosts
-echo "192.168.56.102    mesos2 jenkins2 marathon2 aurora2 zookeeper2 nginx2 docker2" >> /etc/hosts
-echo "192.168.56.103    mesos3 jenkins3 marathon3 aurora3 zookeeper3 nginx3 docker3" >> /etc/hosts
 
 #Clone Git repo containing config files
 echo "###############################################################"
