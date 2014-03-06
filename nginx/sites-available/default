@@ -1,0 +1,66 @@
+#http {
+#    include       /etc/nginx/mime.types;
+#    default_type  application/octet-stream;
+#    server_names_hash_bucket_size 128;
+#    access_log	/var/log/nginx/access.log;
+#    sendfile        on;
+#    keepalive_timeout  30;
+#    tcp_nodelay        on;
+
+    include /etc/nginx/app-servers.include;
+
+    #Marathon
+    server {
+        listen       80;
+        server_name marathon1 marathon2 marathon3;
+        location /    {
+            proxy_pass         http://backend1;
+            proxy_buffering    on;
+
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           }
+    }
+
+   #Mesos
+   server {
+        listen       80;
+        server_name mesos1 mesos2 mesos3;
+        location /    {
+            proxy_pass         http://backend5;
+            proxy_buffering    on;
+
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           }
+    }
+
+   #Jenkins
+   server {
+        listen       80;
+        server_name jenkins1 jenkins2 jenkins3;
+        location /    {
+            proxy_pass         http://backend6;
+            proxy_buffering    on;
+
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           }
+    }
+
+   #Aurora
+   server {
+        listen       80;
+        server_name aurora1 aurora2 aurora3;
+        location /    {
+            proxy_pass         http://backend7;
+            proxy_buffering    on;
+
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           }
+    }

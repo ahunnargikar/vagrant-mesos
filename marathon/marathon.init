@@ -1,0 +1,34 @@
+description "marathon"
+
+# Start just after the System-V jobs (rc) to ensure networking and zookeeper
+# are started. This is as simple as possible to ensure compatibility with
+# Ubuntu, Debian, CentOS, and RHEL distros. See:
+# http://upstart.ubuntu.com/cookbook/#standard-idioms
+start on stopped rc RUNLEVEL=[2345]
+respawn
+
+script
+    #set -o errexit -o nounset -o pipefail
+    FRAMEWORK_HOME=/usr/local/marathon
+
+    if [ -z ${MESOS_NATIVE_LIBRARY+x} ]
+    then
+        search_paths='/usr/lib /usr/local/lib'
+        echo "MESOS_NATIVE_LIBRARY is not set. Searching in $search_paths."
+        export MESOS_NATIVE_LIBRARY=$(find -L $search_paths -name libmesos.dylib -or -name libmesos.so 2>/dev/null | head -n1)
+    fi
+
+    echo "MESOS_NATIVE_LIBRARY is set to $MESOS_NATIVE_LIBRARY"
+
+    [ -r "/etc/marathon/marathon.conf" ] || exit 0
+    . /etc/marathon/marathon.conf
+
+    if [ ! -d "$LOG" ]
+    then
+        mkdir -p `dirname $LOG`
+    fi
+
+   # Start Marathon
+    exec java -jar "$FRAMEWORK_HOME"/target/marathon-*-jar-with-dependencies.jar $ZKMASTER $ZKHOSTS $OPTIONS >$LOG 2>&1
+
+end script
