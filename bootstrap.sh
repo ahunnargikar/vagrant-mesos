@@ -2,6 +2,9 @@
 
 apt-get update
 
+MESOS_VERSION=0.17.0
+PROTOBUF_VERSION=2.5.0
+
 #Set the hostname
 hostname mesos1
 echo "mesos1" > /etc/hostname
@@ -21,6 +24,9 @@ echo "###############################################################"
 echo "Cloning https://github.com/ahunnargikar/vagrant-mesos........"
 echo "###############################################################"
 git clone https://github.com/ahunnargikar/vagrant-mesos
+cd vagrant-mesos
+git pull
+cd ..
 
 #Install Java & Maven
 echo "####################################"
@@ -60,19 +66,19 @@ echo "Installing Mesos........"
 echo "####################################"
 cp -rf vagrant-mesos/mesos/mesos-master /etc/mesos-master
 cp -rf vagrant-mesos/mesos/mesos-slave /etc/mesos-slave
-wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_0.17.0_amd64.deb
-wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_0.17.0_amd64.egg
-dpkg -i mesos_0.17.0_amd64.deb
-easy_install mesos_0.17.0_amd64.egg
+wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_${MESOS_VERSION}_amd64.deb
+wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_${MESOS_VERSION}_amd64.egg
+dpkg -i mesos_${MESOS_VERSION}_amd64.deb
+easy_install mesos_${MESOS_VERSION}_amd64.egg
 sed -i '/--recover=cleanup/d' /usr/bin/mesos-init-wrapper
 cp vagrant-mesos/mesos/mesos/zk /etc/mesos/zk
 
-#Install protobuf 2.5.0
+#Install protobuf ${PROTOBUF_VERSION}
 echo "####################################"
-echo "Installing Protobuf 2.5.0......."
+echo "Installing Protobuf ${PROTOBUF_VERSION}......."
 echo "####################################"
-wget https://protobuf.googlecode.com/files/protobuf-2.5.0.tar.gz
-tar -xzvf protobuf-2.5.0.tar.gz; cd protobuf-2.5.0/
+wget https://protobuf.googlecode.com/files/protobuf-${PROTOBUF_VERSION}.tar.gz
+tar -xzvf protobuf-${PROTOBUF_VERSION}.tar.gz; cd protobuf-${PROTOBUF_VERSION}/
 ./configure
 make
 #make check
@@ -99,11 +105,11 @@ echo "Installing Marathon........"
 echo "####################################"
 git clone https://github.com/mesosphere/marathon
 cd marathon
-sed -i 's#\(<mesos.version>\).*\(</mesos.version>\)#\1'0.17.0'\2#g' pom.xml
-sed -i 's#\(<protobuf.version>\).*\(</protobuf.version>\)#\1'2.5.0'\2#g' pom.xml
+sed -i 's#\(<mesos.version>\).*\(</mesos.version>\)#\1'${MESOS_VERSION}'\2#g' pom.xml
+sed -i 's#\(<protobuf.version>\).*\(</protobuf.version>\)#\1'${PROTOBUF_VERSION}'\2#g' pom.xml
 protoc --java_out=src/main/java/ --proto_path=/usr/local/include/mesos/ --proto_path=src/main/proto/ src/main/proto/marathon.proto
-mvn package
 git status
+mvn package
 cd ..
 mv marathon /usr/local/marathon
 mkdir -p /etc/marathon
@@ -119,7 +125,7 @@ echo "####################################"
 cd /usr/local
 git clone http://git-wip-us.apache.org/repos/asf/incubator-aurora.git
 cd incubator-aurora
-sed -i 's/com.google.protobuf:protobuf-java:2.4.1/com.google.protobuf:protobuf-java:2.5.0/g' build.gradle
+sed -i 's/com.google.protobuf:protobuf-java:2.4.1/com.google.protobuf:protobuf-java:${PROTOBUF_VERSION}/g' build.gradle
 ./gradlew distZip
 
 #Place the Aurora binary under /usr/local
@@ -144,7 +150,7 @@ EOF
 ./pants src/main/python/apache/aurora/client/bin:aurora_admin
 ./pants src/main/python/apache/aurora/client/bin:aurora_client
 
-cp /home/vagrant/mesos_0.17.0_amd64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-0.17.0-py2.7.egg
+cp /home/vagrant/mesos_${MESOS_VERSION}_amd64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
 ./pants src/main/python/apache/aurora/executor/bin:gc_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_runner

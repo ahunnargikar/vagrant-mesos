@@ -29,4 +29,7 @@ update-rc.d -f marathon remove
 echo manual >> /etc/init/marathon.conf
 echo manual >> /etc/init/jenkins.conf
 
+echo "####################################"
+echo "Rebooting........"
+echo "####################################"
 reboot
