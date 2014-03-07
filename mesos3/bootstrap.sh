@@ -20,6 +20,9 @@ cp -rf vagrant-mesos/mesos3/mesos/mesos-slave/* /etc/mesos-slave
 #Zookeeper
 echo "3" > /etc/zookeeper/conf/myid
 
+#Nginx config
+sed -i 's/mesos1/mesos3/g' /etc/nginx/app-servers.include
+
 #Disable services
 update-rc.d -f jenkins remove
 update-rc.d -f marathon remove

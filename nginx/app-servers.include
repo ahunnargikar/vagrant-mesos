@@ -1,23 +1,23 @@
 #Marathon
 upstream backend1 {
     ip_hash;
-	server 0.0.0.0:8086;
+	server mesos1:8086;
 }
 
 #Mesos
 upstream backend5 {
    ip_hash;
-   server 0.0.0.0:5050;
+   server mesos1:5050;
 }
 
 #Jenkins
 upstream backend6 {
    ip_hash;
-   server 0.0.0.0:9000;
+   server mesos1:9000;
 }
 
 #Aurora
 upstream backend7 {
    ip_hash;
-   server 0.0.0.0:9001;
+   server mesos1:9001;
 }
