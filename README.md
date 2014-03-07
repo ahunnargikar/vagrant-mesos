@@ -38,7 +38,16 @@ Each additional VM with the following services actively running upon startup:
 	2. Mesos slave
 	3. Zookeeper
 	4. Docker
-	
+
+#### SSH Access ####
+
+	ssh root@mesos1 | ssh root@mesos2 | ssh root@mesos3
+
+Root SSH Credentials:
+
+	username: root
+	password: vagrant
+
 #### /etc/hosts  ####
 
 Create these entries in the /etc/hosts file on the host machine for quick access to the VMs.
