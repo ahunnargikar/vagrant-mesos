@@ -41,11 +41,11 @@ Each additional VM with the following services actively running upon startup:
 	
 #### /etc/hosts  ####
 
-1. Create these entries in the /etc/hosts file on the host machine for quick access to the VMs. 
+1. Create these entries in the /etc/hosts file on the host machine for quick access to the VMs.
 
-	192.168.56.101 mesos1 jenkins1 marathon1 aurora1
-	192.168.56.102 mesos2 jenkins2 marathon2 aurora2
-	192.168.56.103 mesos3 jenkins3 marathon3 aurora3
+	192.168.56.101	mesos1 jenkins1 marathon1 aurora1
+	192.168.56.102	mesos2 jenkins2 marathon2 aurora2
+	192.168.56.103	mesos3 jenkins3 marathon3 aurora3
 
 2. An Nginx HTTP proxy server is running on each machine so that you can access the applications on the respective VMs.
 
