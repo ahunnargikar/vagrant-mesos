@@ -43,7 +43,7 @@ Each additional VM with the following services actively running upon startup:
 
 Create these entries in the /etc/hosts file on the host machine for quick access to the VMs. 
 
-	192.168.56.101 mesos1 jenkins jenkins1 marathon marathon1 aurora aurora1
+	192.168.56.101 mesos1 jenkins1 marathon1 aurora1
 	192.168.56.102 mesos2 jenkins2 marathon2 aurora2
 	192.168.56.103 mesos3 jenkins3 marathon3 aurora3
 
