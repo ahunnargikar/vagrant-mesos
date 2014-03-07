@@ -41,27 +41,25 @@ Each additional VM with the following services actively running upon startup:
 	
 #### /etc/hosts  ####
 
-1. Create these entries in the /etc/hosts file on the host machine for quick access to the VMs.
+Create these entries in the /etc/hosts file on the host machine for quick access to the VMs.
 
 	192.168.56.101	mesos1 jenkins1 marathon1 aurora1
 	192.168.56.102	mesos2 jenkins2 marathon2 aurora2
 	192.168.56.103	mesos3 jenkins3 marathon3 aurora3
 
-2. An Nginx HTTP proxy server is running on each machine so that you can access the applications on the respective VMs.
+An Nginx HTTP proxy server is running on each machine so that you can access the applications on the respective VMs. Only one Mesos master is active at a time so you will be immediately redirected to the leading master.
 
 	Mesos - http://mesos1 | http://mesos2 | http://mesos3
 
-Only one Mesos master is active at a time so you will be immediately redirected to the leading master.
-
-3. Accessing Jenkins web UI:
+Accessing Jenkins web UI:
 
 	http://jenkins1
 
-4. Accessing Marathon web UI
+Accessing Marathon web UI
 
 	http://marathon1
 
-5. Accessing Aurora web UI
+Accessing Aurora web UI (you will need to run /usr/local/aurora.sh first manually on mesos1)
 
 	http://aurora1
 
