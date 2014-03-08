@@ -51,6 +51,8 @@ echo "####################################"
 mkdir -p /var/lib/mesos/executors
 curl http://downloads.mesosphere.io/mesos-docker/mesos-docker --output /var/lib/mesos/executors/docker
 chmod +x /var/lib/mesos/executors/docker
+cp /var/lib/mesos/executors/docker /var/lib/mesos/executors/docker2
+sed -i 's/, cidfile ]/ , cidfile , \x27-privileged\x27]/g' /var/lib/mesos/executors/docker2
 
 #Install Zookeeper
 echo "####################################"
@@ -94,6 +96,7 @@ echo "####################################"
 apt-get -y install jenkins
 update-rc.d jenkins defaults
 cp vagrant-mesos/jenkins/jenkins /etc/default/jenkins
+cp vagrant-mesos/jenkins/config.xml /var/lib/jenkins/config.xml
 mkdir -p /var/lib/jenkins/plugins
 cp vagrant-mesos/mesos-plugin/mesos.hpi /var/lib/jenkins/plugins/mesos.hpi
 chown -R jenkins:jenkins /var/lib/jenkins/plugins
