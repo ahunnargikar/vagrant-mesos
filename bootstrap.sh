@@ -97,6 +97,7 @@ apt-get -y install jenkins
 update-rc.d jenkins defaults
 cp vagrant-mesos/jenkins/jenkins /etc/default/jenkins
 cp vagrant-mesos/jenkins/config.xml /var/lib/jenkins/config.xml
+cp vagrant-mesos/jenkins/jenkins.model.JenkinsLocationConfiguration.xml /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
 mkdir -p /var/lib/jenkins/plugins
 cp vagrant-mesos/mesos-plugin/mesos.hpi /var/lib/jenkins/plugins/mesos.hpi
 chown -R jenkins:jenkins /var/lib/jenkins/plugins
