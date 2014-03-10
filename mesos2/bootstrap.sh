@@ -29,6 +29,7 @@ update-rc.d -f marathon remove
 echo manual >> /etc/init/marathon.conf
 echo manual >> /etc/init/jenkins.conf
 echo manual >> /etc/init/aurora.conf
+echo manual >> /etc/init/thermos-observer.conf
 
 echo "####################################"
 echo "Rebooting........"
