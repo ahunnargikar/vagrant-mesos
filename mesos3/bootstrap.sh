@@ -28,6 +28,7 @@ update-rc.d -f jenkins remove
 update-rc.d -f marathon remove
 echo manual >> /etc/init/marathon.conf
 echo manual >> /etc/init/jenkins.conf
+echo manual >> /etc/init/aurora.conf
 
 echo "####################################"
 echo "Rebooting........"

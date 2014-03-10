@@ -18,6 +18,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   #Default RAM/CPU config
   config.vm.provider "virtualbox" do |v|
-   v.customize ["modifyvm", :id, "--memory", "8192", "--cpus", "8", "--ioapic", "on", "--name", "mesos1"]
+   v.customize ["modifyvm", :id, "--memory", "4096", "--cpus", "8", "--ioapic", "on", "--name", "mesos1"]
   end
 end

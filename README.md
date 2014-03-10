@@ -15,7 +15,7 @@ Run the following script which will launch 3 VMs each with all the components sh
 
 	mesos1 ip address: 192.168.56.101
 
-The main instance has the following services actively running upon startup and has 8GB allocated RAM:
+The main instance has the following services actively running upon startup and has 4GB allocated RAM:
 
 	1. Mesos master
 	2. Mesos slave
@@ -68,7 +68,7 @@ Accessing Marathon web UI
 
 	http://marathon1
 
-Accessing Aurora web UI (you will need to run /usr/local/aurora.sh first manually on mesos1)
+Accessing Aurora web UI
 
 	http://aurora1
 

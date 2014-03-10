@@ -120,7 +120,6 @@ mkdir -p /etc/marathon
 cp vagrant-mesos/marathon/marathon.conf /etc/marathon/marathon.conf
 cp vagrant-mesos/marathon/marathon.init /etc/init/marathon.conf
 
-
 #Install & configure Aurora
 echo "####################################"
 echo "Installing Aurora........"
@@ -177,9 +176,30 @@ install -m 755 dist/thermos_executor.pex /usr/local/bin/thermos_executor
 install -m 755 dist/thermos_observer.pex /usr/local/bin/thermos_observer
 
 #Launching the scheduler
+mesos-log initialize --path="/usr/local/aurora-scheduler-0.5.0-SNAPSHOT/db"
 cd /home/vagrant
 cp vagrant-mesos/aurora/aurora.sh /usr/local/aurora.sh
 chmod +x /usr/local/aurora.sh
+
+#Launch at startup
+cat > /etc/init/aurora.conf <<EOF
+description "Aurora Scheduler"
+start on stopped rc RUNLEVEL=[2345]
+respawn
+exec /usr/local/aurora.sh \
+  1>> /var/log/aurora-scheduler-stdout.log \
+  2>> /var/log/aurora-scheduler-stderr.log
+EOF
+service aurora start
+
+cat > /etc/init/thermos-observer.conf <<EOF
+description "Aurora Thermos Observer"
+
+start on stopped rc RUNLEVEL=[2345]
+respawn
+exec /usr/local/bin/thermos_observer --root=/var/run/thermos --port=1338 --log_to_disk=NONE --log_to_stderr=google:INFO
+EOF
+service thermos-observer start
 
 #Install & configure Nginx
 echo "####################################"
