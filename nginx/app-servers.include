@@ -4,6 +4,12 @@ upstream backend1 {
 	server mesos1:8086;
 }
 
+#Chronos
+upstream backend2 {
+    ip_hash;
+	server mesos1:8081;
+}
+
 #Mesos
 upstream backend5 {
    ip_hash;

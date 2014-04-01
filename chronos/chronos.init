@@ -1,0 +1,8 @@
+description "Chronos Scheduler"
+start on stopped rc RUNLEVEL=[2345]
+respawn
+
+[ -r "/etc/chronos/chronos.conf" ] || exit 0
+	. /etc/chronos/chronos.conf
+
+exec /usr/local/chronos/bin/start-chronos.bash $ZKMASTER $ZKHOSTS $OPTIONS 1>> $LOG 2>&1

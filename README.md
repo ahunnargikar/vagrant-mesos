@@ -1,7 +1,7 @@
 vagrant-mesos
 =============
 
-Vagrant dev environent setup with Mesos/Marathon/Aurora/Jenkins/Docker
+Vagrant dev environent setup with Mesos/Marathon/Chronos/Aurora/Jenkins/Docker
 
 ![Vagrant Setup](mesos.png)
 
@@ -27,7 +27,7 @@ The main instance has the following services actively running upon startup and h
 
 #### Additional VMs  ####
 
-Your cluster now effectively has 3 Mesos masters, 3 zookeepers and 3 Mesos slaves (each with Docker installed). Jenkins, Marathon & Aurora are installed on the additional VMs too except that they have been disabled on startup. The additional Mesos instances have been allocated a lesser 2GB RAM each.
+Your cluster now effectively has 3 Mesos masters, 3 zookeepers and 3 Mesos slaves (each with Docker installed). Jenkins, Marathon, Chronos & Aurora are installed on the additional VMs too except that they have been disabled on startup. The additional Mesos instances have been allocated a lesser 2GB RAM each.
 
 	mesos2 ip address: 192.168.56.102
 	mesos3 ip address: 192.168.56.103
@@ -52,25 +52,29 @@ Root SSH Credentials:
 
 Create these entries in the /etc/hosts file on the host machine for quick access to the VMs.
 
-	192.168.56.101	mesos1 jenkins1 marathon1 aurora1
-	192.168.56.102	mesos2 jenkins2 marathon2 aurora2
-	192.168.56.103	mesos3 jenkins3 marathon3 aurora3
+	192.168.56.101	mesos1 jenkins1 marathon1 aurora1 chronos1
+	192.168.56.102	mesos2 jenkins2 marathon2 aurora2 chronos2
+	192.168.56.103	mesos3 jenkins3 marathon3 aurora3 chronos3
 
 An Nginx HTTP proxy server is running on each machine so that you can access the applications on the respective VMs. Only one Mesos master is active at a time so you will be immediately redirected to the leading master.
 
 	Mesos - http://mesos1 | http://mesos2 | http://mesos3
 
-Accessing Jenkins web UI:
+Accessing the Jenkins web UI:
 
 	http://jenkins1
 
-Accessing Marathon web UI
+Accessing the Marathon web UI
 
 	http://marathon1
 
-Accessing Aurora web UI
+Accessing the Aurora web UI
 
 	http://aurora1
+
+Accessing the Chronos web UI
+
+	http://chronos1
 
 #### Destroying VMs ####
 

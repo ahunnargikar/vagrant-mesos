@@ -12,9 +12,23 @@
     #Marathon
     server {
         listen       80;
-        server_name marathon1 marathon2 marathon3;
+        server_name marathon marathon1 marathon2 marathon3;
         location /    {
             proxy_pass         http://backend1;
+            proxy_buffering    on;
+
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           }
+    }
+
+    #Chronos
+    server {
+        listen       80;
+        server_name chronos chronos1 chronos2 chronos3;
+        location /    {
+            proxy_pass         http://backend2;
             proxy_buffering    on;
 
             proxy_set_header   Host             $host;
@@ -54,7 +68,7 @@
    #Aurora
    server {
         listen       80;
-        server_name aurora1 aurora2 aurora3;
+        server_name aurora aurora1 aurora2 aurora3;
         location /    {
             proxy_pass         http://backend7;
             proxy_buffering    on;

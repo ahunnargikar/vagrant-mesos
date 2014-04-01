@@ -26,9 +26,11 @@ sed -i 's/mesos1/mesos3/g' /etc/nginx/app-servers.include
 #Disable services
 update-rc.d -f jenkins remove
 update-rc.d -f marathon remove
+update-rc.d -f chronos remove
 echo "manual" >> /etc/init/marathon.conf
 echo "manual" >> /etc/init/jenkins.conf
 echo "manual" >> /etc/init/aurora.conf
+echo "manual" >> /etc/chronos/chronos.conf
 
 echo "####################################"
 echo "Rebooting........"

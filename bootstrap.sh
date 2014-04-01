@@ -8,9 +8,9 @@ PROTOBUF_VERSION=2.5.0
 #Set the hostname
 hostname mesos1
 echo "mesos1" > /etc/hostname
-echo "192.168.56.101    mesos1 jenkins jenkins1 marathon marathon1 aurora aurora1 zookeeper1 nginx1 docker1" >> /etc/hosts
-echo "192.168.56.102    mesos2 jenkins2 marathon2 aurora2 zookeeper2 nginx2 docker2" >> /etc/hosts
-echo "192.168.56.103    mesos3 jenkins3 marathon3 aurora3 zookeeper3 nginx3 docker3" >> /etc/hosts
+echo "192.168.56.101    mesos1 jenkins jenkins1 marathon marathon1 aurora aurora1 zookeeper1 nginx1 docker1 chronos chronos1" >> /etc/hosts
+echo "192.168.56.102    mesos2 jenkins2 marathon2 aurora2 zookeeper2 nginx2 docker2 chronos2" >> /etc/hosts
+echo "192.168.56.103    mesos3 jenkins3 marathon3 aurora3 zookeeper3 nginx3 docker3 chronos3" >> /etc/hosts
 
 #Install base packages
 echo "####################################"
@@ -200,6 +200,18 @@ respawn
 exec /usr/local/bin/thermos_observer --root=/var/run/thermos --port=1338 --log_to_disk=NONE --log_to_stderr=google:INFO
 EOF
 service thermos-observer start
+
+#Install Chronos
+echo "####################################"
+echo "Installing Chronos........"
+echo "####################################"
+curl -sSfL http://downloads.mesosphere.io/chronos/chronos-2.1.0_mesos-0.14.0-rc4.tgz --output chronos.tgz
+tar xzf chronos.tgz
+mv chronos /usr/local/chronos
+mkdir -p /etc/chronos
+cp vagrant-mesos/chronos/chronos.conf /etc/chronos/chronos.conf
+cp vagrant-mesos/chronos/chronos.init /etc/init/chronos.conf
+service chronos start
 
 #Install & configure Nginx
 echo "####################################"
