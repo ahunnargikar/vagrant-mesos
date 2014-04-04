@@ -3,6 +3,8 @@ vagrant-mesos
 
 Vagrant dev environent setup with Mesos/Marathon/Chronos/Aurora/Jenkins/Docker
 
+Disclaimer: This Vagrant setup consumes significant resources but runs fine on my 2013 Macbook Pro developer notebook with a 2.8 GHz Intel Core i7 processor and 16 GB RAM. It may not work as well on a machine with lesser hardware specs.
+
 ![Vagrant Setup](mesos.png)
 
 ### Setup ###
@@ -24,6 +26,8 @@ The main instance has the following services actively running upon startup and h
 	5. Docker Executor
 	6. Jenkins
 	7. Marathon
+	8. Aurora
+	9. Chronos
 
 #### Additional VMs  ####
 

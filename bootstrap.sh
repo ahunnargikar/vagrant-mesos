@@ -52,7 +52,8 @@ mkdir -p /var/lib/mesos/executors
 curl http://downloads.mesosphere.io/mesos-docker/mesos-docker --output /var/lib/mesos/executors/docker
 chmod +x /var/lib/mesos/executors/docker
 cp /var/lib/mesos/executors/docker /var/lib/mesos/executors/docker2
-sed -i 's/, cidfile ]/ , cidfile , \x27-privileged\x27]/g' /var/lib/mesos/executors/docker2
+#sed -i 's/, cidfile ]/ , cidfile , \x27-privileged\x27]/g' /var/lib/mesos/executors/docker2
+sed -i 's/, cidfile ]/ , cidfile , '-v', '/var/run/docker.sock:/var/run/docker.sock']/g' /var/lib/mesos/executors/docker2
 
 #Install Zookeeper
 echo "####################################"
