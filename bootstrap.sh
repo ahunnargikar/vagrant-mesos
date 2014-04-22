@@ -2,7 +2,7 @@
 
 apt-get update
 
-MESOS_VERSION=0.17.0
+MESOS_VERSION=0.18.0
 PROTOBUF_VERSION=2.5.0
 
 #Set the hostname
