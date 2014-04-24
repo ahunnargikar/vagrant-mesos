@@ -155,7 +155,7 @@ EOF
 ./pants src/main/python/apache/aurora/client/bin:aurora_client
 
 cp /home/vagrant/mesos_${MESOS_VERSION}_amd64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
-sed -i 's/mesos==0.17.0/mesos==${MESOS_VERSION}/g' 3rdparty/python/BUILD
+sed -i 's/mesos==0.17.0/mesos=='${MESOS_VERSION}'/g' 3rdparty/python/BUILD
 ./pants src/main/python/apache/aurora/executor/bin:gc_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_runner
