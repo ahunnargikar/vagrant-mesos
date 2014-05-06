@@ -42,7 +42,7 @@ echo "Installing Docker........"
 echo "####################################"
 echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 apt-get -y update
-apt-get -y --force-yes install lxc-docker
+apt-get -y --force-yes install lxc-docker-0.9.1
 
 #Install Docker Executor
 echo "####################################"
@@ -53,7 +53,7 @@ curl http://downloads.mesosphere.io/mesos-docker/mesos-docker --output /var/lib/
 chmod +x /var/lib/mesos/executors/docker
 cp /var/lib/mesos/executors/docker /var/lib/mesos/executors/docker2
 #sed -i 's/, cidfile ]/ , cidfile , \x27-privileged\x27]/g' /var/lib/mesos/executors/docker2
-sed -i 's/, cidfile ]/ , cidfile , '-v', '/var/run/docker.sock:/var/run/docker.sock']/g' /var/lib/mesos/executors/docker2
+sed -i 's/, cidfile ]/ , cidfile , \x27-v\x27, \x27\/var\/run\/docker.sock:\/var\/run\/docker.sock\x27]/g' /var/lib/mesos/executors/docker2
 
 #Install Zookeeper
 echo "####################################"
