@@ -42,14 +42,14 @@ echo "Installing Docker........"
 echo "####################################"
 echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 apt-get -y update
-apt-get -y --force-yes install lxc-docker-0.9.1
+apt-get -y --force-yes install lxc-docker-0.11.1
 
 #Install Docker Executor
 echo "####################################"
 echo "Installing the Docker Executor........"
 echo "####################################"
 mkdir -p /var/lib/mesos/executors
-curl http://downloads.mesosphere.io/mesos-docker/mesos-docker --output /var/lib/mesos/executors/docker
+curl https://raw.githubusercontent.com/mesosphere/mesos-docker/master/bin/mesos-docker --output /var/lib/mesos/executors/docker
 chmod +x /var/lib/mesos/executors/docker
 cp /var/lib/mesos/executors/docker /var/lib/mesos/executors/docker2
 #sed -i 's/, cidfile ]/ , cidfile , \x27-privileged\x27]/g' /var/lib/mesos/executors/docker2
