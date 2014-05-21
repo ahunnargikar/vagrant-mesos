@@ -215,6 +215,13 @@ cp vagrant-mesos/chronos/chronos.conf /etc/chronos/chronos.conf
 cp vagrant-mesos/chronos/chronos.init /etc/init/chronos.conf
 service chronos start
 
+#Installing the Chronos Docker executor
+echo "####################################"
+echo "Installing Chronos Docker executor........"
+echo "####################################"
+curl https://raw.githubusercontent.com/mudasirmirza/chronos-docker/master/chronos_docker --output /var/lib/mesos/executors/chronos_docker
+chmod +x /var/lib/mesos/executors/chronos_docker
+
 #Install & configure Nginx
 echo "####################################"
 echo "Installing Nginx........"
