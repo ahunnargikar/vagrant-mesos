@@ -129,7 +129,7 @@ echo "####################################"
 cd /usr/local
 git clone http://git-wip-us.apache.org/repos/asf/incubator-aurora.git
 cd incubator-aurora
-sed -i 's/com.google.protobuf:protobuf-java:2.4.1/com.google.protobuf:protobuf-java:${PROTOBUF_VERSION}/g' build.gradle
+#sed -i 's/com.google.protobuf:protobuf-java:2.4.1/com.google.protobuf:protobuf-java:${PROTOBUF_VERSION}/g' build.gradle
 ./gradlew distZip
 
 #Place the Aurora binary under /usr/local
@@ -155,7 +155,6 @@ EOF
 ./pants src/main/python/apache/aurora/client/bin:aurora_client
 
 cp /home/vagrant/mesos_${MESOS_VERSION}_amd64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
-sed -i 's/mesos==0.17.0/mesos=='${MESOS_VERSION}'/g' 3rdparty/python/BUILD
 ./pants src/main/python/apache/aurora/executor/bin:gc_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_runner
@@ -178,7 +177,7 @@ install -m 755 dist/thermos_executor.pex /usr/local/bin/thermos_executor
 install -m 755 dist/thermos_observer.pex /usr/local/bin/thermos_observer
 
 #Launching the scheduler
-mesos-log initialize --path="/usr/local/aurora-scheduler-0.5.0-SNAPSHOT/db"
+mesos-log initialize --path="/usr/local/aurora-scheduler-0.5.1-SNAPSHOT/db"
 cd /home/vagrant
 cp vagrant-mesos/aurora/aurora.sh /usr/local/aurora.sh
 chmod +x /usr/local/aurora.sh
