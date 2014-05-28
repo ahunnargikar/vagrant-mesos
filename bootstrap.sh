@@ -82,15 +82,15 @@ cp vagrant-mesos/mesos/mesos/zk /etc/mesos/zk
 echo "####################################"
 echo "Installing Protobuf ${PROTOBUF_VERSION}......."
 echo "####################################"
-# wget https://protobuf.googlecode.com/files/protobuf-${PROTOBUF_VERSION}.tar.gz
-# tar -xzvf protobuf-${PROTOBUF_VERSION}.tar.gz; cd protobuf-${PROTOBUF_VERSION}/
-# ./configure
-# make
-# #make check
-# make install
-# ldconfig
-# protoc --version
-# cd ..
+wget https://protobuf.googlecode.com/files/protobuf-${PROTOBUF_VERSION}.tar.gz
+tar -xzvf protobuf-${PROTOBUF_VERSION}.tar.gz; cd protobuf-${PROTOBUF_VERSION}/
+./configure
+make
+#make check
+make install
+ldconfig
+protoc --version
+cd ..
 
 #Install Jenkins
 echo "####################################"
@@ -112,8 +112,8 @@ echo "Installing Marathon........"
 echo "####################################"
 git clone https://github.com/mesosphere/marathon
 cd marathon
-sed -i 's#\(<mesos.version>\).*\(</mesos.version>\)#\1'${MESOS_VERSION}'\2#g' pom.xml
-sed -i 's#\(<protobuf.version>\).*\(</protobuf.version>\)#\1'${PROTOBUF_VERSION}'\2#g' pom.xml
+#sed -i 's#\(<mesos.version>\).*\(</mesos.version>\)#\1'${MESOS_VERSION}'\2#g' pom.xml
+#sed -i 's#\(<protobuf.version>\).*\(</protobuf.version>\)#\1'${PROTOBUF_VERSION}'\2#g' pom.xml
 protoc --java_out=src/main/java/ --proto_path=/usr/local/include/mesos/ --proto_path=src/main/proto/ src/main/proto/marathon.proto
 git status
 mvn package
