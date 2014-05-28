@@ -10,3 +10,4 @@ script
 exec /usr/local/chronos/bin/start-chronos.bash $ZKMASTER $ZKHOSTS $OPTIONS 1>> $LOG 2>&1
 
 end script
+manual

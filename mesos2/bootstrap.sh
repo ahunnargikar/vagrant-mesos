@@ -30,7 +30,7 @@ update-rc.d -f chronos remove
 echo "manual" >> /etc/init/marathon.conf
 echo "manual" >> /etc/init/jenkins.conf
 echo "manual" >> /etc/init/aurora.conf
-echo "manual" >> /etc/chronos/chronos.conf
+echo "manual" >> /etc/init/chronos.conf
 
 echo "####################################"
 echo "Rebooting........"
