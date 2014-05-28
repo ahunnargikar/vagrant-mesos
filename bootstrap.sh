@@ -82,15 +82,15 @@ cp vagrant-mesos/mesos/mesos/zk /etc/mesos/zk
 echo "####################################"
 echo "Installing Protobuf ${PROTOBUF_VERSION}......."
 echo "####################################"
-wget https://protobuf.googlecode.com/files/protobuf-${PROTOBUF_VERSION}.tar.gz
-tar -xzvf protobuf-${PROTOBUF_VERSION}.tar.gz; cd protobuf-${PROTOBUF_VERSION}/
-./configure
-make
-#make check
-make install
-ldconfig
-protoc --version
-cd ..
+# wget https://protobuf.googlecode.com/files/protobuf-${PROTOBUF_VERSION}.tar.gz
+# tar -xzvf protobuf-${PROTOBUF_VERSION}.tar.gz; cd protobuf-${PROTOBUF_VERSION}/
+# ./configure
+# make
+# #make check
+# make install
+# ldconfig
+# protoc --version
+# cd ..
 
 #Install Jenkins
 echo "####################################"
@@ -127,82 +127,82 @@ cp vagrant-mesos/marathon/marathon.init /etc/init/marathon.conf
 echo "####################################"
 echo "Installing Aurora........"
 echo "####################################"
-# #Build the Aurora code
-# cd /usr/local
-# git clone http://git-wip-us.apache.org/repos/asf/incubator-aurora.git
-# cd incubator-aurora
-# #sed -i 's/com.google.protobuf:protobuf-java:2.4.1/com.google.protobuf:protobuf-java:${PROTOBUF_VERSION}/g' build.gradle
-# ./gradlew distZip
-# 
-# #Place the Aurora binary under /usr/local
-# rm -rf /usr/local/aurora-scheduler*
-# unzip dist/distributions/aurora-scheduler-*.zip -d /usr/local
-# ln -nfs "$(ls -dt /usr/local/aurora-scheduler-* | head -1)" /usr/local/aurora-scheduler
-# 
-# #Place the Aurora config file under /etc/aurora
-# mkdir -p /etc/aurora
-# cat > /etc/aurora/clusters.json <<EOF
-# [{
-#   "name": "example",
-#   "zk": "192.168.56.101",
-#   "scheduler_zk_path": "/aurora/scheduler",
-#   "auth_mechanism": "UNAUTHENTICATED",
-#   "slave_run_directory": "latest",
-#   "slave_root": "/var/lib/mesos"
-# }]
-# EOF
-# 
-# #Install the Python binaries
-# ./pants src/main/python/apache/aurora/client/bin:aurora_admin
-# ./pants src/main/python/apache/aurora/client/bin:aurora_client
-# 
-# cp /home/vagrant/mesos_${MESOS_VERSION}_amd64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
-# ./pants src/main/python/apache/aurora/executor/bin:gc_executor
-# ./pants src/main/python/apache/aurora/executor/bin:thermos_executor
-# ./pants src/main/python/apache/aurora/executor/bin:thermos_runner
-# ./pants src/main/python/apache/thermos/observer/bin:thermos_observer
-# 
-# #Additional Python configuration
-# python <<EOF
-# import contextlib
-# import zipfile
-# with contextlib.closing(zipfile.ZipFile('dist/thermos_executor.pex', 'a')) as zf:
-#   zf.writestr('apache/aurora/executor/resources/__init__.py', '')
-#   zf.write('dist/thermos_runner.pex', 'apache/aurora/executor/resources/thermos_runner.pex')
-# EOF
-# 
-# #Place the binaries under /usr/local/bin
-# install -m 755 dist/aurora_admin.pex /usr/local/bin/aurora_admin
-# install -m 755 dist/aurora_client.pex /usr/local/bin/aurora_client
-# install -m 755 dist/gc_executor.pex /usr/local/bin/gc_executor
-# install -m 755 dist/thermos_executor.pex /usr/local/bin/thermos_executor
-# install -m 755 dist/thermos_observer.pex /usr/local/bin/thermos_observer
-# 
-# #Launching the scheduler
-# mesos-log initialize --path="/usr/local/aurora-scheduler-0.5.1-SNAPSHOT/db"
-# cd /home/vagrant
-# cp vagrant-mesos/aurora/aurora.sh /usr/local/aurora.sh
-# chmod +x /usr/local/aurora.sh
-# 
-# #Launch at startup
-# cat > /etc/init/aurora.conf <<EOF
-# description "Aurora Scheduler"
-# start on stopped rc RUNLEVEL=[2345]
-# respawn
-# exec /usr/local/aurora.sh \
-#   1>> /var/log/aurora-scheduler-stdout.log \
-#   2>> /var/log/aurora-scheduler-stderr.log
-# EOF
-# service aurora start
-# 
-# cat > /etc/init/thermos-observer.conf <<EOF
-# description "Aurora Thermos Observer"
-# 
-# start on stopped rc RUNLEVEL=[2345]
-# respawn
-# exec /usr/local/bin/thermos_observer --root=/var/run/thermos --port=1338 --log_to_disk=NONE --log_to_stderr=google:INFO
-# EOF
-# service thermos-observer start
+#Build the Aurora code
+cd /usr/local
+git clone http://git-wip-us.apache.org/repos/asf/incubator-aurora.git
+cd incubator-aurora
+./gradlew distZip
+
+#Place the Aurora binary under /usr/local
+rm -rf /usr/local/aurora-scheduler*
+unzip dist/distributions/aurora-scheduler-*.zip -d /usr/local
+ln -nfs "$(ls -dt /usr/local/aurora-scheduler-* | head -1)" /usr/local/aurora-scheduler
+
+#Place the Aurora config file under /etc/aurora
+mkdir -p /etc/aurora
+cat > /etc/aurora/clusters.json <<EOF
+[{
+  "name": "example",
+  "zk": "192.168.56.101",
+  "scheduler_zk_path": "/aurora/scheduler",
+  "auth_mechanism": "UNAUTHENTICATED",
+  "slave_run_directory": "latest",
+  "slave_root": "/var/lib/mesos"
+}]
+EOF
+
+#Install the Python binaries
+./pants src/main/python/apache/aurora/client/bin:aurora_admin
+./pants src/main/python/apache/aurora/client/bin:aurora_client
+sed -i 's/mesos==0.18.0/mesos==${MESOS_VERSION}/g' 3rdparty/python/BUILD
+cp /home/vagrant/mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
+./pants src/main/python/apache/aurora/executor/bin:gc_executor
+./pants src/main/python/apache/aurora/executor/bin:thermos_executor
+./pants src/main/python/apache/aurora/executor/bin:thermos_runner
+./pants src/main/python/apache/thermos/observer/bin:thermos_observer
+
+#Additional Python configuration
+python <<EOF
+import contextlib
+import zipfile
+with contextlib.closing(zipfile.ZipFile('dist/thermos_executor.pex', 'a')) as zf:
+  zf.writestr('apache/aurora/executor/resources/__init__.py', '')
+  zf.write('dist/thermos_runner.pex', 'apache/aurora/executor/resources/thermos_runner.pex')
+EOF
+
+#Place the binaries under /usr/local/bin
+install -m 755 dist/aurora_admin.pex /usr/local/bin/aurora_admin
+install -m 755 dist/aurora_client.pex /usr/local/bin/aurora_client
+install -m 755 dist/gc_executor.pex /usr/local/bin/gc_executor
+install -m 755 dist/thermos_executor.pex /usr/local/bin/thermos_executor
+install -m 755 dist/thermos_observer.pex /usr/local/bin/thermos_observer
+
+#Launching the scheduler
+mesos-log initialize --path="/usr/local/aurora-scheduler-0.5.1-SNAPSHOT/db"
+cd /home/vagrant
+cp vagrant-mesos/aurora/aurora.sh /usr/local/aurora.sh
+chmod +x /usr/local/aurora.sh
+
+#Launch at startup
+cat > /etc/init/aurora.conf <<EOF
+description "Aurora Scheduler"
+start on stopped rc RUNLEVEL=[2345]
+respawn
+exec /usr/local/aurora.sh \
+  1>> /var/log/aurora-scheduler-stdout.log \
+  2>> /var/log/aurora-scheduler-stderr.log
+EOF
+
+cat > /etc/init/thermos-observer.conf <<EOF
+description "Aurora Thermos Observer"
+
+start on stopped rc RUNLEVEL=[2345]
+respawn
+exec /usr/local/bin/thermos_observer --root=/var/run/thermos --port=1338 --log_to_disk=NONE --log_to_stderr=google:INFO
+EOF
+
+service aurora start
+service thermos-observer start
 
 #Install Chronos
 echo "####################################"
