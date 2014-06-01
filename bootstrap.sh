@@ -154,7 +154,7 @@ EOF
 #Install the Python binaries
 ./pants src/main/python/apache/aurora/client/bin:aurora_admin
 ./pants src/main/python/apache/aurora/client/bin:aurora_client
-sed -i 's/mesos==0.18.0/mesos==${MESOS_VERSION}/g' 3rdparty/python/BUILD
+sed -i 's/mesos==0.18.0/mesos=='${MESOS_VERSION}'/g' 3rdparty/python/BUILD
 cp /home/vagrant/mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
 ./pants src/main/python/apache/aurora/executor/bin:gc_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_executor
