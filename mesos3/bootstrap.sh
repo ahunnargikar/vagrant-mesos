@@ -8,10 +8,10 @@ echo "mesos3" > /etc/hostname
 echo "###############################################################"
 echo "Cloning https://github.com/ahunnargikar/vagrant-mesos........"
 echo "###############################################################"
-git clone https://github.com/ahunnargikar/vagrant-mesos
-cd vagrant-mesos
-git pull
-cd ..
+# git clone https://github.com/ahunnargikar/vagrant-mesos
+# cd vagrant-mesos
+# git pull
+# cd ..
 
 #Copy over the slave-specific configs
 cp -rf vagrant-mesos/mesos3/mesos/mesos-master/* /etc/mesos-master
