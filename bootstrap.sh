@@ -110,15 +110,17 @@ usermod -g docker jenkins
 echo "####################################"
 echo "Installing Marathon........"
 echo "####################################"
-git clone https://github.com/mesosphere/marathon
-cd marathon
+#git clone https://github.com/mesosphere/marathon
+#cd marathon
 #sed -i 's#\(<mesos.version>\).*\(</mesos.version>\)#\1'${MESOS_VERSION}'\2#g' pom.xml
 #sed -i 's#\(<protobuf.version>\).*\(</protobuf.version>\)#\1'${PROTOBUF_VERSION}'\2#g' pom.xml
-protoc --java_out=src/main/java/ --proto_path=/usr/local/include/mesos/ --proto_path=src/main/proto/ src/main/proto/marathon.proto
-git status
-mvn package
-cd ..
-mv marathon /usr/local/marathon
+#protoc --java_out=src/main/java/ --proto_path=/usr/local/include/mesos/ --proto_path=src/main/proto/ src/main/proto/marathon.proto
+#git status
+#mvn package
+#cd ..
+curl -O http://downloads.mesosphere.io/marathon/marathon-0.5.1/marathon-0.5.1.tgz
+tar xzf marathon-0.5.1.tgz
+mv marathon-0.5.1 /usr/local/marathon
 mkdir -p /etc/marathon
 cp vagrant-mesos/marathon/marathon.conf /etc/marathon/marathon.conf
 cp vagrant-mesos/marathon/marathon.init /etc/init/marathon.conf
