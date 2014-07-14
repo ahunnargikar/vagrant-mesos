@@ -2,7 +2,7 @@
 
 apt-get update
 
-MESOS_VERSION=0.18.2
+MESOS_VERSION=0.19.0
 PROTOBUF_VERSION=2.5.0
 
 #Set the hostname
@@ -42,7 +42,7 @@ echo "Installing Docker........"
 echo "####################################"
 echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 apt-get -y update
-apt-get -y --force-yes install lxc-docker-0.11.1
+apt-get -y --force-yes install lxc-docker
 
 #Install Docker Executor
 echo "####################################"
@@ -69,12 +69,10 @@ echo "Installing Mesos........"
 echo "####################################"
 cp -rf vagrant-mesos/mesos/mesos-master /etc/mesos-master
 cp -rf vagrant-mesos/mesos/mesos-slave /etc/mesos-slave
-wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_${MESOS_VERSION}_amd64.deb
-#wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_${MESOS_VERSION}_amd64.egg
-wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg
-dpkg -i mesos_${MESOS_VERSION}_amd64.deb
-#easy_install mesos_${MESOS_VERSION}_amd64.egg
-easy_install mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg
+wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_${MESOS_VERSION}~ubuntu13.10%2B1_amd64.deb
+wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos-${MESOS_VERSION}_rc2-py2.7-linux-x86_64.egg
+dpkg -i mesos_${MESOS_VERSION}~ubuntu13.10%2B1_amd64.deb
+easy_install mesos-${MESOS_VERSION}_rc2-py2.7-linux-x86_64.egg
 sed -i '/--recover=cleanup/d' /usr/bin/mesos-init-wrapper
 cp vagrant-mesos/mesos/mesos/zk /etc/mesos/zk
 
@@ -110,17 +108,9 @@ usermod -g docker jenkins
 echo "####################################"
 echo "Installing Marathon........"
 echo "####################################"
-#git clone https://github.com/mesosphere/marathon
-#cd marathon
-#sed -i 's#\(<mesos.version>\).*\(</mesos.version>\)#\1'${MESOS_VERSION}'\2#g' pom.xml
-#sed -i 's#\(<protobuf.version>\).*\(</protobuf.version>\)#\1'${PROTOBUF_VERSION}'\2#g' pom.xml
-#protoc --java_out=src/main/java/ --proto_path=/usr/local/include/mesos/ --proto_path=src/main/proto/ src/main/proto/marathon.proto
-#git status
-#mvn package
-#cd ..
-curl -O http://downloads.mesosphere.io/marathon/marathon-0.5.1/marathon-0.5.1.tgz
-tar xzf marathon-0.5.1.tgz
-mv marathon-0.5.1 /usr/local/marathon
+curl -O http://downloads.mesosphere.io/marathon/marathon-0.6.0/marathon-0.6.0.tgz
+tar xzf marathon-0.6.0.tgz
+mv marathon-0.6.0 /usr/local/marathon
 mkdir -p /etc/marathon
 cp vagrant-mesos/marathon/marathon.conf /etc/marathon/marathon.conf
 cp vagrant-mesos/marathon/marathon.init /etc/init/marathon.conf
@@ -157,7 +147,7 @@ EOF
 ./pants src/main/python/apache/aurora/client/bin:aurora_admin
 ./pants src/main/python/apache/aurora/client/bin:aurora_client
 sed -i 's/mesos==0.18.0/mesos=='${MESOS_VERSION}'/g' 3rdparty/python/BUILD
-cp /home/vagrant/mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
+cp /home/vagrant/mesos-${MESOS_VERSION}_rc2-py2.7-linux-x86_64.egg /usr/local/incubator-aurora/.pants.d/python/eggs/mesos-${MESOS_VERSION}-py2.7.egg
 ./pants src/main/python/apache/aurora/executor/bin:gc_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_executor
 ./pants src/main/python/apache/aurora/executor/bin:thermos_runner
