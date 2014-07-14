@@ -23,7 +23,7 @@ apt-get -y install curl git-core mlocate
 echo "###############################################################"
 echo "Cloning https://github.com/ahunnargikar/vagrant-mesos........"
 echo "###############################################################"
-git clone https://github.com/ahunnargikar/vagrant-mesos
+git clone -b mesos-0.19.0 https://github.com/ahunnargikar/vagrant-mesos
 cd vagrant-mesos
 git pull
 cd ..
