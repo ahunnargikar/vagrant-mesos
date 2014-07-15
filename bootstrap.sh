@@ -2,7 +2,7 @@
 
 apt-get update
 
-MESOS_VERSION=0.18.2
+MESOS_VERSION=0.19.0
 PROTOBUF_VERSION=2.5.0
 
 #Set the hostname
@@ -38,11 +38,12 @@ mvn --version
 
 #Install Docker
 echo "####################################"
-echo "Installing Docker........"
+echo "Installing Docker 1.1.1 "
 echo "####################################"
-echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+sh -c "echo deb https://get.docker.io/ubuntu docker main /etc/apt/sources.list.d/docker.list"
 apt-get -y update
-apt-get -y --force-yes install lxc-docker-0.11.1
+apt-get -y --force-yes install lxc-docker
 
 #Install Docker Executor
 echo "####################################"
@@ -69,9 +70,9 @@ echo "Installing Mesos........"
 echo "####################################"
 cp -rf vagrant-mesos/mesos/mesos-master /etc/mesos-master
 cp -rf vagrant-mesos/mesos/mesos-slave /etc/mesos-slave
-wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_${MESOS_VERSION}_amd64.deb
+wget http://downloads.mesosphere.io/master/ubuntu/14.04/mesos_${MESOS_VERSION}~ubuntu14.04%2B1_amd64.deb
 #wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos_${MESOS_VERSION}_amd64.egg
-wget http://downloads.mesosphere.io/master/ubuntu/13.10/mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg
+wget http://downloads.mesosphere.io/master/ubuntu/14.04/mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg
 dpkg -i mesos_${MESOS_VERSION}_amd64.deb
 #easy_install mesos_${MESOS_VERSION}_amd64.egg
 easy_install mesos-${MESOS_VERSION}-py2.7-linux-x86_64.egg
@@ -118,9 +119,9 @@ echo "####################################"
 #git status
 #mvn package
 #cd ..
-curl -O http://downloads.mesosphere.io/marathon/marathon-0.5.1/marathon-0.5.1.tgz
-tar xzf marathon-0.5.1.tgz
-mv marathon-0.5.1 /usr/local/marathon
+curl -O http://downloads.mesosphere.io/marathon/marathon-0.6.0/marathon-0.6.0.tgz
+tar xzf marathon-0.6.0.tgz
+mv marathon-0.6.0 /usr/local/marathon
 mkdir -p /etc/marathon
 cp vagrant-mesos/marathon/marathon.conf /etc/marathon/marathon.conf
 cp vagrant-mesos/marathon/marathon.init /etc/init/marathon.conf
